@@ -13,7 +13,7 @@ def main():
     MANGNIFICATION = 2 # ゲームの倍率
 
     # const
-    INITIAL_BET_ARRAY = [100]
+    INITIAL_BET_ARRAY = [20, 20, 20, 20, 20]
 
     # balance
     BALANCE = 0
@@ -39,13 +39,13 @@ def main():
             if gameResult == 0: # win
                 BALANCE += bet * MANGNIFICATION
                 betArray = betArray[1:-1]
-                print("  ◯ 勝ち +" + str(bet * MANGNIFICATION) + " | 収支: " + str(BALANCE))
+                print("  ◯ 勝ち +" + str(bet * MANGNIFICATION) + " | 収支: " + "{:,}".format(BALANCE))
 
             else: # lose
                 if BALANCE < minBalance:
                     minBalance = BALANCE
                 betArray.append(bet)
-                print("  x 負け -" + str(bet) + " | 収支: " + str(BALANCE))
+                print("  x 負け -" + str(bet) + " | 収支: " + "{:,}".format(BALANCE))
 
             # 記録
             balanceRecordArray.append(BALANCE)
@@ -57,7 +57,7 @@ def main():
 
     print("*************************************")
     print("- エポック数: " + str(EPOCH_NUM))
-    print("- 合計ゲーム数: " + str(gameNum))
+    print("- 合計ゲーム数: " + "{:,}".format(gameNum))
     print("- 最終収支: " + "{:,}".format(BALANCE))
     print("- 最低収支: " + "{:,}".format(minBalance))
     print("- 最大ベット: " + "{:,}".format(maxBet))
