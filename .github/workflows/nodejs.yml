@@ -19,6 +19,6 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - name: npm run
       run: |
-        npm run python
+        npm start
       env:
         CI: true
