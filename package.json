@@ -1,0 +1,12 @@
+{
+  "name": "monte-carlo-method",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "python": "docker run --rm -v $(pwd):/user --workdir /user -it python bash -c \"pip install -r requirements.txt ; python index.py\"",
+    "start": "node .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "license": "MIT"
+}
