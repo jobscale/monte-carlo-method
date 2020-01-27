@@ -4,6 +4,9 @@ import random
 import copy
 import matplotlib.pyplot as plt
 
+def test_1():
+    assert main() == 0
+
 def main():
     # parameter
     EPOCH_NUM = 10000
@@ -66,6 +69,7 @@ def main():
     plt.ylabel("chips")
     plt.legend()
     plt.savefig("result.png")
+    return 0
 
 if __name__ == '__main__':
     main()

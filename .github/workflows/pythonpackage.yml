@@ -21,7 +21,6 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
-        python index.py
     - name: Lint with flake8
       run: |
         pip install flake8
@@ -32,4 +31,10 @@ jobs:
     - name: Test with pytest
       run: |
         pip install pytest
-        pytest
+        for f in $(find -type f -name "*.py")
+        do
+          pytest $f
+        done
+    - name: Run main
+      run: |
+        python index.py
