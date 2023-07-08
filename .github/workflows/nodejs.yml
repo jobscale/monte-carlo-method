@@ -19,6 +19,9 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - name: npm run
       run: |
+        npm i
+        npm run lint
+        npm i --omit=dev
         node index.mjs
       env:
         CI: true
