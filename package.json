@@ -6,7 +6,7 @@
   "scripts": {
     "python": "docker run --rm -v $(pwd):/user --workdir /user -it python bash -c \"pip install -r requirements.txt ; python index.py\" && google-chrome result.png",
     "nodejs": "docker run --rm -v $(pwd):/user --workdir /user -it node:lts-bullseye-slim bash -c \"npm i --omit=dev ; node index.mjs\" && google-chrome result.html",
-    "start": "node .",
+    "start": "node . && google-chrome profit.html",
     "lint": "eslint . --ext .mjs,.js",
     "test": "npm run lint"
   },

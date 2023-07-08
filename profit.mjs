@@ -68,6 +68,7 @@ class App {
 
   start() {
     while (asset.list.length) {
+      // eslint-disable-next-line no-plusplus
       asset.count++;
       const bet = asset.list.length < 2
         ? asset.list[0]
@@ -87,6 +88,7 @@ class App {
       list: asset.init.list,
       all: asset.init.list.sum(),
     });
+    // eslint-disable-next-line no-plusplus
     for (let i = 10000; i; i--) {
       await this.initialize()
       .then(() => this.start())
@@ -161,7 +163,7 @@ class App {
 
     const svgString = svg.node().outerHTML;
     const imageBuffer = Buffer.from(svgString);
-    fs.writeFileSync('result.html', imageBuffer);
+    fs.writeFileSync('profit.html', imageBuffer);
 
     return 0;
   }
