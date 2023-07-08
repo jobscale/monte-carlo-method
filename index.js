@@ -1,14 +1,18 @@
-global.logger = console;
+const logger = console;
+
 JSON.clone = obj => JSON.parse(JSON.stringify(obj));
 (() => {
   const { prototype } = Number;
   prototype.toMoney = function () { return this.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','); };
 })();
+
 (() => {
   const { prototype } = Array;
   prototype.sum = function () { return this.reduce((a, b) => a + b); };
 })();
+
 const rate = 50;
+
 const asset = {
   init: {
     list: [20, 20, 20, 20, 20],
@@ -23,6 +27,7 @@ const asset = {
   maxCount: 0,
   totalCount: 0,
 };
+
 class App {
   win(bet) {
     logger.info(` win : ${asset.profit.toMoney()} (bet ${bet.toMoney()})`);
@@ -30,13 +35,16 @@ class App {
     asset.list.pop();
     asset.list.shift();
   }
+
   loose(bet) {
     logger.info(`loose: ${asset.profit.toMoney()} (bet ${bet.toMoney()})`);
     asset.list.push(bet);
   }
+
   judge() {
     return Math.floor(Math.random() * 100) < rate;
   }
+
   fight(bet) {
     if (asset.maxBet < bet) asset.maxBet = bet;
     if (asset.currentBet < bet) asset.currentBet = bet;
@@ -44,9 +52,11 @@ class App {
     if (asset.debt > asset.profit) asset.debt = asset.profit;
     this[this.judge() ? 'win' : 'loose'](bet);
   }
+
   async initialize() {
     Object.assign(asset, JSON.clone(asset.init));
   }
+
   start() {
     while (asset.list.length) {
       asset.count++;
@@ -58,6 +68,7 @@ class App {
     asset.totalCount += asset.count;
     asset.totalProfit += asset.profit;
   }
+
   async main() {
     asset.init.list = asset.init.list.filter(v => v > 0);
     logger.info({
@@ -85,7 +96,8 @@ class App {
       TotalCount: asset.totalCount.toMoney(),
     };
     logger.info(JSON.stringify({ Summery }, null, 2));
+  }
 }
-}
+
 new App().main()
 .catch(e => logger.error(e.message));
