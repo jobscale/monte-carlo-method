@@ -117,7 +117,7 @@ class App {
 
     const width = 800;
     const height = 400;
-    const margin = { top: 20, right: 20, bottom: 30, left: 50 };
+    const margin = { top: 20, right: 20, bottom: 30, left: 60 };
 
     const svg = d3
     .select(document.body)
