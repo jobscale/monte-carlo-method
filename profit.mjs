@@ -1,14 +1,22 @@
+import fs from 'fs';
+import { JSDOM } from 'jsdom';
+import * as d3 from 'd3';
+
 const logger = console;
 
 JSON.clone = obj => JSON.parse(JSON.stringify(obj));
 (() => {
   const { prototype } = Number;
-  prototype.toMoney = function toMoney() { return this.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','); };
+  prototype.toMoney = function toMoney() {
+    return this.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  };
 })();
 
 (() => {
   const { prototype } = Array;
-  prototype.sum = function sum() { return this.reduce((a, b) => a + b); };
+  prototype.sum = function sum() {
+    return this.reduce((a, b) => a + b);
+  };
 })();
 
 const rate = 50;
@@ -23,6 +31,7 @@ const asset = {
   },
   maxDebt: 0,
   maxBet: 0,
+  transitionProfit: [],
   totalProfit: 0,
   maxCount: 0,
   totalCount: 0,
@@ -59,12 +68,12 @@ class App {
 
   start() {
     while (asset.list.length) {
-      // eslint-disable-next-line no-plusplus
       asset.count++;
       const bet = asset.list.length < 2
         ? asset.list[0]
         : asset.list[0] + asset.list[asset.list.length - 1];
       this.fight(bet);
+      asset.transitionProfit.push(asset.totalProfit + asset.profit);
     }
     if (asset.maxCount < asset.count) asset.maxCount = asset.count;
     if (asset.maxDebt > asset.debt) asset.maxDebt = asset.debt;
@@ -78,7 +87,6 @@ class App {
       list: asset.init.list,
       all: asset.init.list.sum(),
     });
-    // eslint-disable-next-line no-plusplus
     for (let i = 10000; i; i--) {
       await this.initialize()
       .then(() => this.start())
@@ -100,6 +108,62 @@ class App {
       TotalCount: asset.totalCount.toMoney(),
     };
     logger.info(JSON.stringify({ Summery }, null, 2));
+
+    // Generate SVG Plot
+    const dom = new JSDOM('<!DOCTYPE html><html><body></body></html>');
+    const { document } = dom.window;
+
+    const width = 800;
+    const height = 400;
+    const margin = { top: 20, right: 20, bottom: 30, left: 50 };
+
+    const svg = d3
+    .select(document.body)
+    .append('svg')
+    .attr('width', width)
+    .attr('height', height);
+
+    const xScale = d3
+    .scaleLinear()
+    .domain([0, asset.transitionProfit.length - 1])
+    .range([margin.left, width - margin.right]);
+
+    const yScale = d3
+    .scaleLinear()
+    .domain([
+      d3.min(asset.transitionProfit),
+      d3.max(asset.transitionProfit),
+    ])
+    .range([height - margin.bottom, margin.top]);
+
+    const line = d3
+    .line()
+    .x((d, i) => xScale(i))
+    .y(d => yScale(d));
+
+    svg
+    .append('path')
+    .datum(asset.transitionProfit)
+    .attr('fill', 'none')
+    .attr('stroke', 'steelblue')
+    .attr('stroke-width', 2)
+    .attr('d', line);
+
+    svg
+    .append('g')
+    .attr('transform', `translate(0,${height - margin.bottom})`)
+    .call(d3.axisBottom(xScale));
+
+    svg
+    .append('g')
+    .attr('transform', `translate(${margin.left},0)`)
+    .call(d3.axisLeft(yScale));
+
+    const svgString = svg.node().outerHTML;
+    const imageBuffer = Buffer.from(svgString);
+    fs.writeFileSync('result.html', imageBuffer);
+
+    return 0;
   }
 }
 

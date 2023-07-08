@@ -2,7 +2,7 @@
   "name": "monte-carlo-method",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "profit.mjs",
   "scripts": {
     "python": "docker run --rm -v $(pwd):/user --workdir /user -it python bash -c \"pip install -r requirements.txt ; python index.py\" && google-chrome result.png",
     "nodejs": "docker run --rm -v $(pwd):/user --workdir /user -it node:lts-bullseye-slim bash -c \"npm i --omit=dev ; node index.mjs\" && google-chrome result.html",
