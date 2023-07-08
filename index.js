@@ -3,12 +3,12 @@ const logger = console;
 JSON.clone = obj => JSON.parse(JSON.stringify(obj));
 (() => {
   const { prototype } = Number;
-  prototype.toMoney = function () { return this.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','); };
+  prototype.toMoney = function toMoney() { return this.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','); };
 })();
 
 (() => {
   const { prototype } = Array;
-  prototype.sum = function () { return this.reduce((a, b) => a + b); };
+  prototype.sum = function sum() { return this.reduce((a, b) => a + b); };
 })();
 
 const rate = 50;
@@ -59,8 +59,11 @@ class App {
 
   start() {
     while (asset.list.length) {
+      // eslint-disable-next-line no-plusplus
       asset.count++;
-      const bet = asset.list.length < 2 ? asset.list[0] : asset.list[0] + asset.list[asset.list.length - 1];
+      const bet = asset.list.length < 2
+        ? asset.list[0]
+        : asset.list[0] + asset.list[asset.list.length - 1];
       this.fight(bet);
     }
     if (asset.maxCount < asset.count) asset.maxCount = asset.count;
@@ -75,6 +78,7 @@ class App {
       list: asset.init.list,
       all: asset.init.list.sum(),
     });
+    // eslint-disable-next-line no-plusplus
     for (let i = 10000; i; i--) {
       await this.initialize()
       .then(() => this.start())

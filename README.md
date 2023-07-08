@@ -3,7 +3,7 @@
 ## 実行方法
 ### NodeJS
 ```
-npm start
+npm run nodejs
 ```
 ### Python
 ```
