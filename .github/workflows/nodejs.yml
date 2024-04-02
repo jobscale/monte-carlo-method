@@ -1,4 +1,4 @@
-name: Node CI
+name: Nodejs CI
 
 on: [push]
 
@@ -20,7 +20,7 @@ jobs:
     - name: npm run
       run: |
         npm i
-        npm run lint
+        npm run lint --if-present
         npm i --omit=dev
         node index.mjs
       env:
