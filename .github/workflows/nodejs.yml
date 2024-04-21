@@ -1,6 +1,14 @@
 name: Nodejs CI
 
-on: [push]
+on:
+  # schedule:
+  # - cron: '48 17 * * 1'
+  push:
+    branches: [ main ]
+    # Publish semver tags as releases.
+    tags: [ 'v*.*.*' ]
+  pull_request:
+    branches: [ main ]
 
 jobs:
   build:
@@ -21,7 +29,10 @@ jobs:
       run: |
         npm i
         npm run lint --if-present
+        npm test --if-present
         npm i --omit=dev
-        node index.mjs
+        [[ -e index.mjs ]] && node index.mjs || echo -n ''
+        [[ -e index.js ]] && node index.js || echo -n ''
       env:
         CI: true
+        ENV: test
