@@ -12,12 +12,10 @@
   },
   "license": "MIT",
   "dependencies": {
-    "d3": "^7.8.5",
-    "jsdom": "^22.1.0"
+    "d3": "^7.9.0",
+    "jsdom": "^27.2.0"
   },
   "devDependencies": {
-    "eslint": "^8.44.0",
-    "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-plugin-import": "^2.27.5"
+    "eslint": "^9.39.1"
   }
 }
