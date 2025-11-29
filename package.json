@@ -1,8 +1,10 @@
 {
   "name": "monte-carlo-method",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "",
-  "main": "profit.mjs",
+  "license": "MIT",
+  "type": "module",
+  "main": "profit.js",
   "scripts": {
     "python": "docker run --rm -v $(pwd):/user --workdir /user -it python bash -c \"pip install -r requirements.txt ; python index.py\" && google-chrome result.png",
     "nodejs": "docker run --rm -v $(pwd):/user --workdir /user -it node:lts-bullseye-slim bash -c \"npm i --omit=dev ; node index.mjs\" && google-chrome result.html",
@@ -10,12 +12,15 @@
     "lint": "eslint . --ext .mjs,.js",
     "test": "npm run lint"
   },
-  "license": "MIT",
+  "pre-commit": "test",
   "dependencies": {
     "d3": "^7.9.0",
     "jsdom": "^27.2.0"
   },
   "devDependencies": {
-    "eslint": "^9.39.1"
+    "@jobscale/eslint-plugin-standard": "^0.0.7",
+    "eslint": "^9.39.1",
+    "eslint-plugin-jest": "^29.2.1",
+    "pre-commit": "^1.2.2"
   }
 }
